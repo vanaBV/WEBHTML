@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>달력</title>
+    <style>
+        body {
+            background-color: #5c5c5c;
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+        div {
+            color: white;
+        }
+        .calendar {
+            width: 800px;
+            margin: auto;
+            border: 5px solid white;
+            padding: 20px;
+            border-radius: 20px;
+            box-shadow: 5px 5px 20px rgba(255, 255, 255, 0.2);
+        }
+        .calendar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 40px;
+            margin-bottom: 20px;
+        }
+        .days {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            font-weight: bold;
+            font-size: 30px;
+        }
+        .dates {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+        }
+        .date {
+            padding: 30px;
+            border: 2px solid white;
+            font-size: 30px;
+            text-align: center;
+        }
+        button {
+            font-size: 30px;
+            background: white;
+            color: black;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 10px;
+        }
+        button:hover {
+            background: pink;
+        }
+    </style>
+</head>
+<body>
+    <div class="calendar">
+        <div class="calendar-header">
+            <button onclick="prevMonth()">◀</button>
+            <span id="currentMonth"></span>
+            <button onclick="nextMonth()">▶</button>
+        </div>
+        <div class="days">
+            <div>일</div><div>월</div><div>화</div><div>수</div><div>목</div><div>금</div><div>토</div>
+        </div>
+        <div class="dates" id="dates"></div>
+    </div>
+
+    <script>
+        let today = new Date();
+        let currentYear = today.getFullYear();
+        let currentMonth = today.getMonth();
+
+        function renderCalendar(year, month) {
+            document.getElementById('currentMonth').innerText = `${year}년 ${month + 1}월`;
+            const firstDay = new Date(year, month, 1).getDay();
+            const lastDate = new Date(year, month + 1, 0).getDate();
+            const dates = document.getElementById('dates');
+            dates.innerHTML = '';
+
+            for (let i = 0; i < firstDay; i++) {
+                let emptyDiv = document.createElement('div');
+                dates.appendChild(emptyDiv);
+            }
+            
+            for (let i = 1; i <= lastDate; i++) {
+                let dateDiv = document.createElement('div');
+                dateDiv.classList.add('date');
+                dateDiv.innerText = i;
+                dates.appendChild(dateDiv);
+            }
+        }
+        
+        function prevMonth() {
+            currentMonth--;
+            if (currentMonth < 0) {
+                currentMonth = 11;
+                currentYear--;
+            }
+            renderCalendar(currentYear, currentMonth);
+        }
+        
+        function nextMonth() {
+            currentMonth++;
+            if (currentMonth > 11) {
+                currentMonth = 0;
+                currentYear++;
+            }
+            renderCalendar(currentYear, currentMonth);
+        }
+
+        renderCalendar(currentYear, currentMonth);
+    </script>
+</body>
+</html>

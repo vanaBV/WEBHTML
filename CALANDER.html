@@ -5,14 +5,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>달력</title>
     <style>
+        /* 배경색과 기본 스타일 설정 */
         body {
             background-color: #5c5c5c;
             font-family: Arial, sans-serif;
             text-align: center;
         }
+        
+        /* 모든 div 태그의 기본 텍스트 색상을 흰색으로 지정 */
         div {
             color: white;
         }
+        
+        /* 달력 컨테이너 스타일 */
         .calendar {
             width: 800px;
             margin: auto;
@@ -21,6 +26,8 @@
             border-radius: 20px;
             box-shadow: 5px 5px 20px rgba(255, 255, 255, 0.2);
         }
+        
+        /* 달력 헤더 스타일 (월과 이동 버튼 포함) */
         .calendar-header {
             display: flex;
             justify-content: space-between;
@@ -28,22 +35,30 @@
             font-size: 40px;
             margin-bottom: 20px;
         }
+        
+        /* 요일 부분 스타일 */
         .days {
             display: grid;
             grid-template-columns: repeat(7, 1fr);
             font-weight: bold;
             font-size: 30px;
         }
+        
+        /* 날짜 부분 스타일 */
         .dates {
             display: grid;
             grid-template-columns: repeat(7, 1fr);
         }
+        
+        /* 개별 날짜 스타일 */
         .date {
             padding: 30px;
             border: 2px solid white;
             font-size: 30px;
             text-align: center;
         }
+        
+        /* 버튼 스타일 */
         button {
             font-size: 30px;
             background: white;
@@ -53,10 +68,28 @@
             cursor: pointer;
             border-radius: 10px;
         }
+        
+        /* 버튼 호버 효과 */
         button:hover {
             background: pink;
         }
-    </style>
+        #calander {
+            margin-top: 30px;
+            font-size: 1.5rem;
+            color: #fafafa;
+            text-transform: uppercase;
+            padding: 10px 20px;
+            border-radius: 10px;
+            border: 2px solid #fafafa;
+            background: #252525;
+            box-shadow: 3px 3px #fafafa;
+            cursor: pointer;
+        }
+        #calander:active {
+            box-shadow: none;
+            transform: translate(3px, 3px);
+        }
+        </style>
 </head>
 <body>
     <div class="calendar">
@@ -69,25 +102,35 @@
             <div>일</div><div>월</div><div>화</div><div>수</div><div>목</div><div>금</div><div>토</div>
         </div>
         <div class="dates" id="dates"></div>
+        
+        <a href="./index.html">
+        
+        <button id="calander">돌아가기</button>
+        
+        </a>
     </div>
-
+    
     <script>
+        // 현재 날짜 정보를 가져옴
         let today = new Date();
-        let currentYear = today.getFullYear();
-        let currentMonth = today.getMonth();
-
+        let currentYear = today.getFullYear(); // 현재 연도
+        let currentMonth = today.getMonth(); // 현재 월 (0부터 시작)
+        
+        // 달력을 렌더링하는 함수
         function renderCalendar(year, month) {
-            document.getElementById('currentMonth').innerText = ${year}년 ${month + 1}월;
-            const firstDay = new Date(year, month, 1).getDay();
-            const lastDate = new Date(year, month + 1, 0).getDate();
+            document.getElementById('currentMonth').innerText = `${year}년 ${month + 1}월`;
+            const firstDay = new Date(year, month, 1).getDay(); // 해당 월의 첫째 날 요일
+            const lastDate = new Date(year, month + 1, 0).getDate(); // 해당 월의 마지막 날짜
             const dates = document.getElementById('dates');
             dates.innerHTML = '';
-
+            
+            // 첫째 날 이전의 빈 칸 채우기
             for (let i = 0; i < firstDay; i++) {
                 let emptyDiv = document.createElement('div');
                 dates.appendChild(emptyDiv);
             }
             
+            // 날짜 채우기
             for (let i = 1; i <= lastDate; i++) {
                 let dateDiv = document.createElement('div');
                 dateDiv.classList.add('date');
@@ -96,25 +139,28 @@
             }
         }
         
+        // 이전 달로 이동하는 함수
         function prevMonth() {
             currentMonth--;
-            if (currentMonth < 0) {
+            if (currentMonth < 0) { // 1월에서 이전 버튼을 누르면 작년 12월로 이동
                 currentMonth = 11;
                 currentYear--;
             }
             renderCalendar(currentYear, currentMonth);
         }
         
+        // 다음 달로 이동하는 함수
         function nextMonth() {
             currentMonth++;
-            if (currentMonth > 11) {
+            if (currentMonth > 11) { // 12월에서 다음 버튼을 누르면 내년 1월로 이동
                 currentMonth = 0;
                 currentYear++;
             }
             renderCalendar(currentYear, currentMonth);
         }
-
+        
+        // 페이지 로드 시 현재 월의 달력을 표시
         renderCalendar(currentYear, currentMonth);
-    </script>
+        </script>
 </body>
 </html>

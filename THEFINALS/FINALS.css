@@ -451,9 +451,8 @@ video {
 .btn-glitch-fill:focus {
     animation-name: glitch;
     animation-duration: 0.2s;
-    background-color: yellow;
     color: black;
-    border: 1px solid yellow;
+    border: 3px solid yellow;
 }
 
 .btn-glitch-fill:hover .text-decoration,
